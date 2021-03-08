@@ -87,7 +87,7 @@ public class SPRING21_BeRobsFriend {
                     }
                 case 2: // Metal
                     compatScore = compatScore + 20;
-                    System.out.println("Nice! A fellow metalhhead! Do you like your metal screamo? Yes or No?");
+                    System.out.println("Thats brutal. A fellow metalhhead I see! Do you like your metal screamo? Yes or No?");
                     userLine = inputScanner.next();
                     if(userLine.equals("Yes") || userLine.equals("yes")){
                         System.out.println("Really? Dang I don't know how you can understand what they are even saying");
@@ -204,7 +204,7 @@ public class SPRING21_BeRobsFriend {
         
         
 //      Question 5 - My grade (completely unbiased in friend making decision)
-        System.out.println("Question 5: What should the professor give me on this project?");
+        System.out.println("Question 5: How many points should the professor give me on this project?");
         userInt = inputScanner.nextInt();
         if(userInt >= 90){
             compatScore = compatScore + userInt;
