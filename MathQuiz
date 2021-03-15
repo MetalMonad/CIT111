@@ -1,0 +1,172 @@
+
+/**
+ *
+ * @author Rob
+ */
+
+import java.util.Scanner;
+import java.util.Random;
+
+public class MathQuiz {
+    public static void main(String[] args){
+        
+//      Declares Varaibles
+        int mathAttempts = 2;
+        int questionsAnswered = 0;
+        final int TOTAL_QUESTIONS = 5;
+        int numOne = 1;
+        int numTwo = 1;
+        int numThree = 1;
+        int mathOperation = 0;
+        int rightAnswers = 0;
+        int difficulty = 0;
+        Scanner scan = new Scanner(System.in);
+        
+        System.out.println("Welcome to Rob's Math Quiz! Please answer the following 5 questions!");
+//      While statement to loop until 5 questions are answered
+        while(TOTAL_QUESTIONS != questionsAnswered){ 
+            int userAnswer = 1;
+            int correctAnswer = 2; //The 1 and 2 are dummy values to start and reset the values to run the program
+            Random randGenerator = new Random();
+//          RNG Numbers are created. This will also be changed by the amount of correct answers from the user.
+            if(difficulty == 0){
+                numOne = randGenerator.nextInt(30);
+                numTwo = randGenerator.nextInt(30);
+            }else if(difficulty == 1){
+                numOne = randGenerator.nextInt(40);
+                numTwo = randGenerator.nextInt(40);
+                numThree = randGenerator.nextInt(4);
+                numThree = numThree + 1; //numThree is not used here, it is just to prevent it from causing a bug
+            }else if(difficulty == 3){
+                numOne = randGenerator.nextInt(25);
+                numTwo = randGenerator.nextInt(25);
+                numThree = randGenerator.nextInt(4);
+                numThree = numThree + 1; //This prevents it from every asking to divide by 0
+            }else if(difficulty == 4){
+                numOne = randGenerator.nextInt(50);
+                numTwo = randGenerator.nextInt(50);
+                numThree = randGenerator.nextInt(9);
+                numThree = numThree + 1;
+            }
+            
+//          The difficult will also modify the kinds of math questions asked
+            if(difficulty < 2){
+                mathOperation = randGenerator.nextInt(2);
+            }else if(difficulty >= 2){
+                mathOperation = randGenerator.nextInt(6);
+                mathOperation = mathOperation + 2; //Will stop simple adding and subtracting from being asked
+            }
+            questionsAnswered++;
+            
+//          While statement for individual questions
+            //RETURN CODE HERE
+            while(mathAttempts != 0 && userAnswer != correctAnswer){
+                
+                System.out.print("Question " + questionsAnswered + ": ");
+//              Switch statement to figure out what kind of problem we will be doing
+                switch(mathOperation){
+                
+                    case 0:
+                        correctAnswer = numOne + numTwo;
+                        System.out.println("What is " + numOne + " + " + numTwo + "?");
+                        break;
+                    case 1:
+                        if(difficulty >= 2){ //If the difficulty is too low, the problem will swap to make sure you won't deal with negatives
+                            System.out.println(questionsAnswered + "What is " + numOne + " - " + numTwo + "?");
+                            correctAnswer = numOne - numTwo;
+                        }else if(difficulty < 2)
+                            if(numOne >= numTwo){
+                                System.out.println("What is " + numOne + " - " + numTwo + "?");
+                                correctAnswer = numOne - numTwo;
+                        }else if(numOne < numTwo){
+                            System.out.println("What is " + numTwo + " - " + numOne + "?");
+                            correctAnswer = numTwo - numOne;
+                        }
+                        break;
+                    case 2:
+                        correctAnswer = numOne * numTwo;
+                        System.out.println("What is " + numOne + " x " + numTwo + "?");
+                        break;
+                    case 3:
+                        if(numOne >= numTwo){
+                                System.out.println("What is the remainder of " + numOne + " % " + numTwo + "?");
+                                correctAnswer = numOne % numTwo;
+                        }else if(numOne < numTwo){
+                            System.out.println("What is the remainder of " + numTwo + " % " + numOne + "?");
+                            correctAnswer = numTwo % numOne;
+                        }
+                        break;
+                    case 4:
+                        System.out.println("What is " + numOne + " x " + numTwo + " + " + numThree + "?");
+                        correctAnswer = numOne * numTwo + numThree;
+                        break;
+                    case 5:
+                        System.out.println("What is " + numOne + " x " + numTwo + " % " + numThree + "?");
+                        correctAnswer = numOne * numTwo % numThree;
+                        break;
+                } // End of Switch    
+                userAnswer = scan.nextInt(); 
+                
+//              While statement to tell the user their answer is right or not and will show the solution
+                while(mathAttempts != 0 && userAnswer != correctAnswer){                    
+                    System.out.println("Incorrect. You have " + mathAttempts + " chances remaining.");
+                    if(userAnswer < correctAnswer){
+                        System.out.println("Higher");
+                        mathAttempts--;
+                        userAnswer = scan.nextInt();
+                    }else if(userAnswer > correctAnswer){
+                        System.out.println("Lower");
+                        mathAttempts--;
+                        userAnswer = scan.nextInt();               
+                    }
+                    if(userAnswer == correctAnswer){
+                        System.out.println("Correct!");
+                        rightAnswers++;
+                    }                   
+                }
+                if(userAnswer != correctAnswer){
+                    System.out.println("Incorrect");
+                }
+                System.out.println("The answer was " + correctAnswer);
+                switch(mathOperation){
+                    case 0:
+                        System.out.println(numOne + " + " + numTwo + " = " + correctAnswer);
+                        break;
+                    case 1:
+                        System.out.println(numOne + " - " + numTwo + " = " + correctAnswer);
+                        break;
+                    case 2:
+                        System.out.println(numOne + " x " + numTwo + " = " + correctAnswer);
+                        break;
+                    case 3:
+                        if(numOne >= numTwo){
+                                System.out.println(numOne + " % " + numTwo + " = " + correctAnswer);
+                        }else if(numOne < numTwo){
+                            System.out.println(numTwo + " % " + numOne + " = " + correctAnswer);
+                        }
+                        break;
+                    case 4:
+                        System.out.println(numOne + " x " + numTwo + " + " + numThree + " = " + correctAnswer);
+                        break;
+                    case 5:
+                        System.out.println(numOne + " x " + numTwo + " % " + numThree + " = " + correctAnswer);
+                        break;
+                }    
+                System.out.println("");               
+                }
+                
+                //Aftermath
+                mathAttempts = 2; //Resets the amount of attempts after each problem
+                //Adjusts difficulty but will not change if it is already at 0
+                if(userAnswer == correctAnswer){
+                    difficulty++;
+                }else if(userAnswer != correctAnswer && difficulty != 0){
+                    difficulty--;
+            }
+        }
+        
+//      End of the quiz
+        System.out.println("You have finished the quiz!");
+        System.out.println("You got " + rightAnswers + " correct out of " + TOTAL_QUESTIONS);
+    }
+}
